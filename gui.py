@@ -1,6 +1,9 @@
 
 from tkinter import ttk
 import tkinter as Tk
+from database import inserir_boleto
+
+
 
 def confirmacao():
     valor_nome = nome.get()
@@ -32,9 +35,13 @@ def confirmacao():
     vencimento_FRM2 = Tk.Label(FRM2, text= f'{valor_vencimento}')
     vencimento_FRM2.grid(column=5, row=6)
 
-    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR")
+    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=enviar_dados)
     botao_confirmar.grid(column=4, row=8)    
+
+    def enviar_dados():
     
+        inserir_boleto(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento)
+
 
 
 
