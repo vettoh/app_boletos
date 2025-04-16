@@ -4,6 +4,8 @@ import tkinter as Tk
 from database import inserir_boleto
 
 
+def enviar_dados(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento):
+    inserir_boleto(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento)
 
 def confirmacao():
     valor_nome = nome.get()
@@ -35,12 +37,11 @@ def confirmacao():
     vencimento_FRM2 = Tk.Label(FRM2, text= f'{valor_vencimento}')
     vencimento_FRM2.grid(column=5, row=6)
 
-    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=enviar_dados)
+   #temos que usar lambda aqui, pq para adicionar o valor dos entrys aqui da forma convencional, seria executada a função na hora de criar o botão e isso resultaria em um erro, lambda cria uma função anônima, que será executa somente ao clicar o botão
+    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:enviar_dados(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento))
     botao_confirmar.grid(column=4, row=8)    
 
-    def enviar_dados():
-    
-        inserir_boleto(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento)
+
 
 
 
@@ -91,6 +92,9 @@ vencimento.grid(column=6, row=4)
 
 cadastrar = Tk.Button(FRM, text="CADASTRAR", command=confirmacao)
 cadastrar.grid(column=4, row=(5))
+
+botao_historico_boletos = Tk.Button(janela, text= "BOLETOS CADASTRADOS")
+botao_historico_boletos.place(x=250,y=180)
 
 
 janela.mainloop()
