@@ -1,8 +1,31 @@
 
 from tkinter import ttk
 import tkinter as Tk
-from database import inserir_boleto
+from database import inserir_boleto, ver_boletos
+from main import enviar_email
 
+
+def voltar():
+    FRM2.grid_forget()
+    FRM.grid()
+   
+
+def visualizacao_tabela():
+    toplevel_tabela = Tk.Toplevel(janela)
+    toplevel_tabela.title = "BOLETOS CADASTRADOS"
+    toplevel_tabela.geometry = ("400x400")
+    
+    colunas = ("id", "nome","data do pedido", "valor", "parcelas", "vencimento")
+    tree = ttk.Treeview(toplevel_tabela,columns=colunas, show='headings')
+    for col in colunas:
+        tree.heading(col, text=col)
+        tree.column(col, width=100)
+    #adicionar dados vindo do banco
+    boletos = ver_boletos()
+    
+    for boleto in boletos:
+        tree.insert("","end", values=boleto)
+    tree.pack(fill="both", expand=True)
 
 def enviar_dados(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento):
     inserir_boleto(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento)
@@ -14,11 +37,9 @@ def confirmacao():
     valor_parcelas = parcelas.get()
     valor_vencimento = vencimento.get()
 
-    FRM.destroy()
+    FRM.grid_forget()
     # como destruimos tudo o que havia no primeiro FRM tivemos que cirar um novo, para a exibição da nova página
-    FRM2 = ttk.Frame(janela, padding=10)
     FRM2.grid()
-    
     LABEL_TITULO = Tk.Label(FRM2,text="CONFIRME SE OS DADOS ESTÃO CERTOS")
     LABEL_TITULO.grid(column=4,row=1)
 
@@ -38,13 +59,11 @@ def confirmacao():
     vencimento_FRM2.grid(column=5, row=6)
 
    #temos que usar lambda aqui, pq para adicionar o valor dos entrys aqui da forma convencional, seria executada a função na hora de criar o botão e isso resultaria em um erro, lambda cria uma função anônima, que será executa somente ao clicar o botão
-    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:enviar_dados(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento))
-    botao_confirmar.grid(column=4, row=8)    
+    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:(enviar_dados(valor_nome,valor_data_de_pedido,valor_da_compra,valor_parcelas,valor_vencimento), enviar_email()))
+    botao_confirmar.grid(column=4, row=8)  
 
-
-
-
-
+    botao_voltar = Tk.Button(FRM2, text="VOLTAR", command= (voltar))
+    botao_voltar.grid(column=5, row=8) 
 
 
 janela = Tk.Tk()
@@ -54,6 +73,9 @@ janela.geometry(f"{largura}x{altura}")
 
 FRM = ttk.Frame(janela, padding=10)
 FRM.grid()
+
+FRM2 = ttk.Frame(janela, padding=10)
+FRM2.grid()
 
 #labels tabela
 TITULO = Tk.Label(FRM, text="ALERTA DE BOLETOS")
@@ -93,7 +115,7 @@ vencimento.grid(column=6, row=4)
 cadastrar = Tk.Button(FRM, text="CADASTRAR", command=confirmacao)
 cadastrar.grid(column=4, row=(5))
 
-botao_historico_boletos = Tk.Button(janela, text= "BOLETOS CADASTRADOS")
+botao_historico_boletos = Tk.Button(janela, text= "BOLETOS CADASTRADOS", command= visualizacao_tabela)
 botao_historico_boletos.place(x=250,y=180)
 
 

@@ -8,7 +8,7 @@ def create_table():
     conection = conectar() # aqui chamamos o banco de dados para dentro da função
     cursor = conection.cursor() # aqui criamos um cursor que é um comando para que possamos interagir com o banco de dados criando tabelas ou inserir dados
     # aqui passamos os objetos da tabela como nome das colunas, e usamos "id integer primary KEY AUTOINCREMENT" para criar uma coluna com o número dos boletos e usamos PRIMARY KEY AUTO INCREMENT para ir somando o número dos boletos automaticamente
-    cursor.execute("DROP TABLE IF EXISTS boletos")
+   
     cursor.execute('''CREATE TABLE IF NOT EXISTS boletos (
                         id integer primary KEY AUTOINCREMENT, 
                         empresa TEXT,
@@ -30,5 +30,15 @@ def inserir_boleto(empresa, datadacompra, valor, parcelas, vencimento):
                    (empresa, datadacompra, valor, parcelas, vencimento, 'pendente'))
     conection.commit()
     conection.close ()
-inserir_boleto('internet', '2025-11-05',99.90,4, '2027-11-01')
+
 print("boleto inserido")
+
+def ver_boletos():
+    conn = sqlite3.connect('boletos.db') # faz a conexão com o banco de dados
+    cursor = conn.cursor() # cursor é o objeto que executa comando no SQL
+
+    cursor.execute("SELECT * FROM boletos") # busca todos os dados na tabela
+    resultado = cursor.fetchall() # pega todos os dados da tabela em forma de tuplas
+    
+    conn.close() # fecha a conexão com o banco
+    return resultado
