@@ -37,7 +37,7 @@ def ver_boletos():
     conn = sqlite3.connect('boletos.db') # faz a conexão com o banco de dados
     cursor = conn.cursor() # cursor é o objeto que executa comando no SQL
 
-    cursor.execute("SELECT * FROM boletos") # busca todos os dados na tabela
+    cursor.execute("SELECT* FROM boletos") # busca todos os dados na tabela
     resultado = cursor.fetchall() # pega todos os dados da tabela em forma de tuplas
     
     conn.close() # fecha a conexão com o banco
