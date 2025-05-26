@@ -1,4 +1,6 @@
+
 import sqlite3
+from datetime import datetime
 # TEMOS QUE CRIAR UMA FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS
 def conectar():
     conection = sqlite3.connect(r"C:\Users\User\Desktop\git\app_boletos\boletos.db")
@@ -23,15 +25,21 @@ def create_table():
 create_table()
 print("tabela criada")
 
-def inserir_boleto(empresa, datadacompra, valor, parcelas, vencimento):
+    
+def inserir_boleto(empresa,datacompra,valor,parcelas,vencimento,stats):
+    
     conection = conectar()
     cursor = conection.cursor()
     cursor.execute ("INSERT INTO boletos (empresa, datadacompra, valor, parcelas, vencimento, stats) VALUES (?,?, ?, ?, ?,?)",
-                   (empresa, datadacompra, valor, parcelas, vencimento, 'pendente'))
+                   (empresa,datacompra, valor, parcelas, vencimento, 'pendente'))
     conection.commit()
     conection.close ()
+   
 
 print("boleto inserido")
+
+    
+
 
 def ver_boletos():
     conn = sqlite3.connect('boletos.db') # faz a conexão com o banco de dados

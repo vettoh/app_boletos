@@ -4,6 +4,7 @@ import tkinter as Tk
 from database import inserir_boleto, ver_boletos
 from main import enviar_email
 from datetime import datetime
+from utils import formatar_data_vencimento
 from scheduler import checar_e_enviar_boletos
 
 
@@ -29,9 +30,13 @@ def visualizacao_tabela():
         tree.insert("","end", values=boleto)
     tree.pack(fill="both", expand=True)
 
-def enviar_dados(valor_nome,data_pedido,valor_da_compra,valor_parcelas,valor_vencimento_br):
-    inserir_boleto(valor_nome,data_pedido,valor_da_compra,valor_parcelas,valor_vencimento_br)
-    
+def enviar_dados(empresa,data_compra, valor, parcelas, vencimento_str):
+    vencimento_formatado = formatar_data_vencimento(vencimento_str)
+    if not vencimento_formatado:
+        print("data de vencimento inválida")
+        return
+    inserir_boleto(empresa, data_compra, valor, parcelas, vencimento_formatado)
+    print("boleto inserido com sucesso")    
 
 def confirmacao():
     valor_nome = nome.get()
@@ -44,7 +49,7 @@ def confirmacao():
         valor_vencimento_br = datetime.strptime(valor_vencimento, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_pedido = datetime.strptime(valor_data_de_pedido, "%d/%m/%Y").strftime("%Y-%m-%d") #aqui precisamos pegar a data de : data_compra.get que está em valor_data_de_pedido, e converter ela do formato BR para o formato americano, pq o banco de dados lê somente assim
         
-        inserir_boleto(valor_nome, data_pedido, float(valor_da_compra), int(valor_parcelas),valor_vencimento_br)
+        inserir_boleto(valor_nome, data_pedido, float(valor_da_compra), int(valor_parcelas),valor_vencimento_br, "pendente")
     
     except ValueError as e:
         print("erro ao converter data", e)        
@@ -73,7 +78,7 @@ def confirmacao():
     vencimento_FRM2.grid(column=5, row=6)
 
    #temos que usar lambda aqui, pq para adicionar o valor dos entrys aqui da forma convencional, seria executada a função na hora de criar o botão e isso resultaria em um erro, lambda cria uma função anônima, que será executa somente ao clicar o botão
-    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:(enviar_dados(valor_nome,data_pedido,valor_da_compra,valor_parcelas,valor_vencimento_br), enviar_email(),checar_e_enviar_boletos() ))
+    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:(enviar_dados(valor_nome.get(),data_pedido.get(),valor_da_compra.get(),valor_parcelas.get(),valor_vencimento_br.get()), enviar_email(),checar_e_enviar_boletos() ))
     botao_confirmar.grid(column=4, row=8)  
 
     botao_voltar = Tk.Button(FRM2, text="VOLTAR", command= (voltar))
