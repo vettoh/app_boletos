@@ -26,7 +26,7 @@ create_table()
 print("tabela criada")
 
     
-def inserir_boleto(empresa,datacompra,valor,parcelas,vencimento,stats):
+def inserir_boleto(empresa,datacompra,valor,parcelas,vencimento,):
     
     conection = conectar()
     cursor = conection.cursor()
@@ -42,7 +42,7 @@ print("boleto inserido")
 
 
 def ver_boletos():
-    conn = sqlite3.connect('boletos.db') # faz a conexão com o banco de dados
+    conn = conectar() # faz a conexão com o banco de dados
     cursor = conn.cursor() # cursor é o objeto que executa comando no SQL
 
     cursor.execute("SELECT* FROM boletos") # busca todos os dados na tabela
