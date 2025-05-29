@@ -78,7 +78,7 @@ def confirmacao():
     vencimento_FRM2.grid(column=5, row=6)
 
    #temos que usar lambda aqui, pq para adicionar o valor dos entrys aqui da forma convencional, seria executada a função na hora de criar o botão e isso resultaria em um erro, lambda cria uma função anônima, que será executa somente ao clicar o botão
-    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:(enviar_dados(valor_nome,data_pedido,valor_da_compra,valor_parcelas,valor_vencimento_br), enviar_email(),checar_e_enviar_boletos() ))
+    botao_confirmar = Tk.Button(FRM2, text="CONFIRMAR", command=lambda:(enviar_dados(valor_nome,data_pedido,valor_da_compra,valor_parcelas,valor_vencimento_br),checar_e_enviar_boletos() ))
     botao_confirmar.grid(column=4, row=8)  
 
     botao_voltar = Tk.Button(FRM2, text="VOLTAR", command= (voltar))

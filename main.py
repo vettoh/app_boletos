@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 # usamos dotenv para pode camuflar as senhas na medida que elas fiquem seguras quando formos compartilhar o código
 
-def enviar_email():
+def enviar_email(nome, data_pedido, valor, vencimento):
 
     dotenv_path = Path('.') / '.env'
     load_dotenv(dotenv_path=dotenv_path)
@@ -14,5 +14,5 @@ def enviar_email():
 
 
     email_service = EmailSender(email,senha)
-    email_service.send_email("weverton@htamoveis.com.br", "lembrete de vencimento de boleto", "seu boleto vence amanhã")
+    email_service.send_email("weverton@htamoveis.com.br", "lembrete de vencimento do boleto", f"seu boleto {nome}, que foi comprado em {data_pedido}, com valor de {valor}, e vencimento em {vencimento}, vence amanhã")
 

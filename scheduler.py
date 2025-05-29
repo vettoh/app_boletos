@@ -23,13 +23,13 @@ def checar_e_enviar_boletos():
             enviar_email(boleto[1], boleto[2], boleto[3], boleto[5])
         else:
             print(f"boleto id {boleto[0]} não vence hoje.")
-"""def checagem_diaria():
-    schedule.every(5).seconds.do(enviar_email) #aqui será usado para rodar todo dia as 09 da manhã
+def checagem_diaria():
+    schedule.every().day. at("13:00").do(checar_e_enviar_boletos) #aqui será usado para rodar todo dia as 09 da manhã
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(60)
 threading.Thread(target=checagem_diaria).start()    
 
 if __name__ == "__main__":
     print("iniciando o scheduler")
-    threading.Thread(target=checagem_diaria).start()"""
+    threading.Thread(target=checagem_diaria).start()
