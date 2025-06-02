@@ -23,9 +23,10 @@ Este é um aplicativo desktop feito com **Python + Tkinter** para cadastrar bole
 
 ## 🖼️ Interface
 
-*(Adicione aqui uma imagem do app rodando quando possível)*
 
----
+
+---![interface](https://github.com/user-attachments/assets/b00d9e99-aad4-4ce6-8434-87cd6f0ef01c)
+
 
 ## 🛠️ Tecnologias utilizadas
 
